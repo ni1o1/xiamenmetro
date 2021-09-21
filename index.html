@@ -6,25 +6,107 @@
     <!-- 引入 ECharts 文件 -->
     <script src="js/jquery.min.js"></script>
     <script src="js/echarts.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src='js/main.js'></script>
     <script src="js/bmap.js"></script>
-    <script type="text/javascript">window.HOST_TYPE = 1</script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />
+    <script type="text/javascript">
+    window.HOST_TYPE = 1
+    </script>
     <script type="text/javascript" src="https://api.map.baidu.com/getscript?v=3.0&ak=f8GgvXGNa3rCqHkmrAdAgPm3YFV12uTi&services=&t=20200327103013"></script>
+    <script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/jquery.range.css" />
 </head>
 
 <body style="height: 100%; margin: 0">
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
     <div id="main" style="height:100%;"></div>
+    <div style="right:-830px;" class="contactusdiyou">
+        <div class="hoverbtn" id='open'>
+            <span>站</span><span>点</span><span>属</span><span>性</span>
+            <img class="hoverimg" src="images/hoverbtnbg.gif" height="9" width="13">
+        </div>
+        <div class="hoverbtn" id='close' style='display: none;'>
+            <span>站</span><span>点</span><span>属</span><span>性</span>
+            <img class="hoverimg" src="images/hoverbtnbg1.gif" height="9" width="13">
+        </div>
+        <div class="conter" style="position:absolute;height:100%;width:830px;left:0px;background:rgba(255,255,255,0.9)">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#container2" data-toggle="tab">人口聚集指标</a></li>
+                <li><a href="#container3" data-toggle="tab">土地开发利用指标</a></li>
+                <li><a href="#container4" data-toggle="tab">交通影响力指标</a></li>
+                <li><a href="#container5" data-toggle="tab">环境指标</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="container2" style="position:absolute;height:100%;width:800px"></div>
+                <div class="tab-pane fade" id="container3" style="position:absolute;height:100%;width:800px"></div>
+                <div class="tab-pane fade" id="container4" style="position:absolute;height:100%;width:800px"></div>
+                <div class="tab-pane fade" id="container5" style="position:absolute;height:100%;width:800px"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    //定义展开的功能
+    $(function() {
+        $("#open")
+            .click(function() {
+                $(".hoverimg")
+                    .attr("src", "images/hoverbtnbg1.gif");
+                $('.contactusdiyou')
+                    .animate({ right: '0' }, 300);
+                $("#open")
+                    .hide()
+                $("#close")
+                    .show()
+            });
+        $("#close")
+            .click(function() {
+                $(".hoverimg")
+                    .attr("src", "images/hoverbtnbg.gif");
+                $('.contactusdiyou')
+                    .animate({ right: '-830px' }, 300, function() {});
+
+                $("#open")
+                    .show()
+                $("#close")
+                    .hide()
+            });
+    })
+    //打开时展开
+    $(".hoverimg")
+        .attr("src", "images/hoverbtnbg1.gif");
+    $('.contactusdiyou')
+        .animate({ right: '0' }, 300);
+    $("#open")
+        .hide()
+    $("#close")
+        .show()
+    </script>
     <script type="text/javascript">
     // 初始化图表时设置style
     var myChart = echarts.init(document.getElementById('main'));
+    var dom2 = document.getElementById("container2");
+    var myChart2 = echarts.init(dom2);
+    var dom3 = document.getElementById("container3");
+    var myChart3 = echarts.init(dom3);
+    var dom4 = document.getElementById("container4");
+    var myChart4 = echarts.init(dom4);
+    var dom5 = document.getElementById("container5");
+    var myChart5 = echarts.init(dom5);
     // 指定图表的配置项和数据
+    myChart.showLoading();
+
     $.getJSON('data/metrostop.json', function(metrostop) {
         $.getJSON('data/metroline.json', function(metroline) {
             $.getJSON('styleJson_light.json', function(styleJson) {
                 var option = {
                     bmap: {
-                        center: [118.26600, 24.560422],
-                        zoom: 14,
+                        center: [118.27720, 24.570422],
+                        zoom: 15,
                         roam: true,
                         mapStyle: {
                             styleJson: styleJson
@@ -39,85 +121,9 @@
                         }
                     },
                     grid: [{
-                            right: 150,
-
-                            height: '44%',
-                            width: '300px',
-
-                        }, {
-                            right: 50,
-                            width: '380px',
-                            bottom: '3%',
-                            top: '58%',
-
-                            //height: '40%',
-
-                        }, {
-                            show: true,
-                            left: null,
-                            right: 0,
-                            height: '100%',
-                            width: '480px',
-                            bottom: '0%',
-                            backgroundColor: 'rgba(18,89,147,0.5)',
-                            zlevel: 10
-                        }, {
-                            show: true,
-                            left: 0,
-                            top: 0,
-                            height: '80px',
-                            width: '520px',
-                            bottom: '0%',
-                            backgroundColor: 'rgba(255,255,255,0.8)',
-                            zlevel: -1
-                        }
-
-                    ],
-                    xAxis: [{
-                        type: 'value',
-                        scale: true,
-                        position: 'top',
-                        boundaryGap: false,
-                        splitLine: {
-                            show: false
-                        },
-                        axisLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        axisLabel: {
-                            margin: 2,
-                            textStyle: {
-                                color: '#fff'
-                            }
-                        }
-                    }],
-                    yAxis: [{
-                        type: 'category',
-                        //  name: 'TOP 20',
-                        nameGap: 16,
-                        axisLine: {
-                            show: true,
-                            lineStyle: {
-                                color: '#fff'
-                            }
-                        },
-                        axisTick: {
-                            show: false,
-                            lineStyle: {
-                                color: '#fff'
-                            }
-                        },
-                        axisLabel: {
-                            show: false,
-                            interval: 0,
-                            textStyle: {
-                                color: '#fff'
-                            }
-                        },
-                        data: []
+                        right: 150,
+                        height: '44%',
+                        width: '300px',
                     }],
                     tooltip: {},
                     legend: {},
@@ -135,36 +141,76 @@
                         progressiveThreshold: 500,
                         progressive: 200
                     }, {
-                        name: '地铁站',
+                        name: '已开通',
                         type: 'scatter',
                         coordinateSystem: 'bmap',
-                        data: metrostop,
-                        symbolSize: 20
+                        data: metrostop[0],
+                        label: {
+                            show: true,
+                            position: 'right',
+                            fontSize: 20,
+                            formatter: function(para) { return para.name }
+                        },
+                        symbolSize: 30
+                    }, {
+                        name: '未开通',
+                        type: 'scatter',
+                        coordinateSystem: 'bmap',
+                        data: metrostop[1],
+                        label: {
+                            show: true,
+                            position: 'right',
+                            fontSize: 20,
+                            formatter: function(para) { return para.name }
+                        },
+                        symbolSize: 30
+                    }, {
+                        name: '未通车',
+                        type: 'scatter',
+                        coordinateSystem: 'bmap',
+                        label: {
+                            show: true,
+                            position: 'right',
+                            fontSize: 20,
+                            formatter: function(para) { return para.name }
+                        },
+                        data: metrostop[2],
+                        symbolSize: 30
                     }],
                 };
 
                 // 使用刚指定的配置项和数据显示图表。
                 myChart.setOption(option, true);
-
+                myChart.hideLoading();
 
 
                 myChart.on('click', function(para) {
-                    if (para['seriesName'] == '地铁站') {
+                    if (para['seriesType'] == 'scatter') {
                         var station = para['name']
-                        for (var i = 0; i < metrostop.length; i++) {
-                            if (metrostop[i]['name'] == station) {
-                                var stationscatter = metrostop[i]
+                        for (var j = 0; j < 3; j++) {
+                            for (var i = 0; i < metrostop[j].length; i++) {
+                                if (metrostop[j][i]['name'] == station) {
+                                    var stationscatter = metrostop[j][i]
+                                }
                             }
                         }
                         var option1 = {
-                            series: [{}, {}, {
+                            series: [{}, {}, {}, {}, {
                                 type: 'effectScatter',
                                 coordinateSystem: 'bmap',
                                 data: [stationscatter],
-                                symbolSize: 30
+                                symbolSize: 30,
+                                label: {
+                                    show: true,
+                                    position: 'right',
+                                    color: 'red',
+                                    fontSize: 20,
+                                    formatter: function(para) { return para.name }
+                                }
                             }]
                         }
                         myChart.setOption(option1)
+setstationdata(station)
                     }
                 })
             })

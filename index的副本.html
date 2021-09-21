@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/echarts.js"></script>
+    <script src="js/bmap.js"></script>
+    <script type="text/javascript">window.HOST_TYPE = 1</script>
+    <script type="text/javascript" src="https://api.map.baidu.com/getscript?v=3.0&ak=f8GgvXGNa3rCqHkmrAdAgPm3YFV12uTi&services=&t=20200327103013"></script>
+</head>
+
+<body style="height: 100%; margin: 0">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="height:100%;"></div>
+    <script type="text/javascript">
+    // 初始化图表时设置style
+    var myChart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    $.getJSON('data/metrostop.json', function(metrostop) {
+        $.getJSON('data/metroline.json', function(metroline) {
+            $.getJSON('styleJson_light.json', function(styleJson) {
+                var option = {
+                    bmap: {
+                        center: [118.26600, 24.560422],
+                        zoom: 14,
+                        roam: true,
+                        mapStyle: {
+                            styleJson: styleJson
+                        }
+                    },
+                    title: {
+                        text: "厦门市轨道3号线站点综合评价系统",
+                        top: '1%',
+                        textStyle: {
+                            color: '#000',
+                            fontSize: 30
+                        }
+                    },
+                    grid: [{
+                            right: 150,
+
+                            height: '44%',
+                            width: '300px',
+
+                        }, {
+                            right: 50,
+                            width: '380px',
+                            bottom: '3%',
+                            top: '58%',
+
+                            //height: '40%',
+
+                        }, {
+                            show: true,
+                            left: null,
+                            right: 0,
+                            height: '100%',
+                            width: '480px',
+                            bottom: '0%',
+                            backgroundColor: 'rgba(18,89,147,0.5)',
+                            zlevel: 10
+                        }, {
+                            show: true,
+                            left: 0,
+                            top: 0,
+                            height: '80px',
+                            width: '520px',
+                            bottom: '0%',
+                            backgroundColor: 'rgba(255,255,255,0.8)',
+                            zlevel: -1
+                        }
+
+                    ],
+                    xAxis: [{
+                        type: 'value',
+                        scale: true,
+                        position: 'top',
+                        boundaryGap: false,
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            margin: 2,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        }
+                    }],
+                    yAxis: [{
+                        type: 'category',
+                        //  name: 'TOP 20',
+                        nameGap: 16,
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        axisTick: {
+                            show: false,
+                            lineStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        axisLabel: {
+                            show: false,
+                            interval: 0,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        data: []
+                    }],
+                    tooltip: {},
+                    legend: {},
+                    series: [{
+                        type: 'lines',
+                        coordinateSystem: 'bmap',
+                        polyline: true,
+                        data: metroline,
+                        silent: true,
+                        lineStyle: {
+                            // color: '#c23531',
+                            // color: 'rgb(200, 35, 45)',
+                            width: 5
+                        },
+                        progressiveThreshold: 500,
+                        progressive: 200
+                    }, {
+                        name: '地铁站',
+                        type: 'scatter',
+                        coordinateSystem: 'bmap',
+                        data: metrostop,
+                        symbolSize: 20
+                    }],
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option, true);
+
+
+
+                myChart.on('click', function(para) {
+                    if (para['seriesName'] == '地铁站') {
+                        var station = para['name']
+                        for (var i = 0; i < metrostop.length; i++) {
+                            if (metrostop[i]['name'] == station) {
+                                var stationscatter = metrostop[i]
+                            }
+                        }
+                        var option1 = {
+                            series: [{}, {}, {
+                                type: 'effectScatter',
+                                coordinateSystem: 'bmap',
+                                data: [stationscatter],
+                                symbolSize: 30
+                            }]
+                        }
+                        myChart.setOption(option1)
+                    }
+                })
+            })
+        })
+    })
+    </script>
+</body>
+
+</html>
