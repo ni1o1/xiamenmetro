@@ -182,10 +182,10 @@
 
                 // 使用刚指定的配置项和数据显示图表。
                 myChart.setOption(option, true);
+
                 myChart.hideLoading();
 
-
-                myChart.on('click', function(para) {
+                function click1(para) {
                     if (para['seriesType'] == 'scatter') {
                         var station = para['name']
                         for (var j = 0; j < 3; j++) {
@@ -213,7 +213,9 @@
                         myChart.setOption(option1)
                         setstationdata(station)
                     }
-                })
+                }
+                click1({ seriesType: 'scatter', name: '林前' })
+                myChart.on('click', click1)
             })
         })
     })
