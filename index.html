@@ -6,6 +6,7 @@
     <!-- 引入 ECharts 文件 -->
     <script src="js/jquery.min.js"></script>
     <script src="js/echarts.js"></script>
+    <script src="js/echarts-wordcloud.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src='js/main.js'></script>
     <script src="js/bmap.js"></script>
@@ -42,10 +43,10 @@
                 <li><a href="#container5" data-toggle="tab">环境指标</a></li>
             </ul>
             <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="container2" style="position:absolute;height:100%;width:800px"></div>
-                <div class="tab-pane fade" id="container3" style="position:absolute;height:100%;width:800px"></div>
-                <div class="tab-pane fade" id="container4" style="position:absolute;height:100%;width:800px"></div>
-                <div class="tab-pane fade" id="container5" style="position:absolute;height:100%;width:800px"></div>
+                <div class="tab-pane fade in active" id="container2" style="position:absolute;height:900px;width:800px"></div>
+                <div class="tab-pane fade" id="container3" style="position:absolute;height:900px;width:800px"></div>
+                <div class="tab-pane fade" id="container4" style="position:absolute;height:900px;width:800px"></div>
+                <div class="tab-pane fade" id="container5" style="position:absolute;height:900px;width:800px"></div>
             </div>
         </div>
     </div>
@@ -105,7 +106,7 @@
             $.getJSON('styleJson_light.json', function(styleJson) {
                 var option = {
                     bmap: {
-                        center: [118.27720, 24.570422],
+                        center: [118.2920, 24.570422],
                         zoom: 15,
                         roam: true,
                         mapStyle: {
@@ -210,7 +211,7 @@
                             }]
                         }
                         myChart.setOption(option1)
-setstationdata(station)
+                        setstationdata(station)
                     }
                 })
             })
