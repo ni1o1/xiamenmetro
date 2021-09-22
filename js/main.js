@@ -234,7 +234,7 @@ function setstationdata(station) {
     })
     //土地开发利用
     $.getJSON('data/wordcloud.json', function(wordcloud) {
-                for (var i = 0; i < wordcloud[5].length; i++) {
+        for (var i = 0; i < wordcloud[5].length; i++) {
             if (wordcloud[5][i]['name'] == station) {
                 wordcloud[3][i]['itemStyle'] = {
                     borderColor: 'black',
@@ -257,7 +257,7 @@ function setstationdata(station) {
             }
         }
         var option3 = {
-            tooltip:{},
+            tooltip: {},
             title: [{
                 text: '周边用地词云图',
                 left: '75%',
@@ -303,19 +303,20 @@ function setstationdata(station) {
                 //axisLine: { lineStyle: { color: 'red' } }//底面的轴
                 //splitLine: { lineStyle: { color: 'red' } }//底面的分隔线
             },
-              grid: [ {
+            grid: [{
                 left: '65%',
                 top: '53%',
                 width: '38%',
                 height: '33%'
 
-            }],xAxis: [ {
+            }],
+            xAxis: [{
                 name: '元/平方米',
                 min: 0,
                 max: 50000,
                 gridIndex: 0
             }],
-            yAxis: [ {
+            yAxis: [{
                 inverse: true,
                 type: 'category',
                 gridIndex: 0,
@@ -324,7 +325,7 @@ function setstationdata(station) {
             legend: [{
                 top: '75%',
                 left: '85%',
-                data: ['3km平均房价', '5km平均房价','10km平均房价']
+                data: ['3km平均房价', '5km平均房价', '10km平均房价']
             }],
             series: [{
                 type: 'wordCloud',
@@ -370,20 +371,56 @@ function setstationdata(station) {
                 data: wordcloud[3],
                 barGap: '0%',
                 barCategoryGap: '10%',
-                
+
             }, {
                 name: '5km平均房价',
                 type: 'bar',
                 data: wordcloud[4],
-                
+
             }, {
                 name: '10km平均房价',
                 type: 'bar',
                 data: wordcloud[5],
-               
+
             }],
         };
         myChart3.setOption(option3)
+        //人口热力
+
+
+    })
+}
+
+function iso() {
+    var station = myChart.getOption().series[4]['data'][0]['name']
+    $.getJSON('data/gis/' + station + '.json', function(iso) {
+        console.log(iso)
+
+        var option_iso = {
+            bmap:{zoom:13},
+            visualMap: {
+                max: 90,
+                seriesIndex: 5,
+                inRange: {
+                    color: ['green', '#eac736', '#d94e5d']
+                }
+            },
+            series: [{}, {label: {fontSize:5},symbolSize:5}, {label: {fontSize:5},symbolSize:5}, {label: {fontSize:5},symbolSize:5}, {},
+                {
+                    type: 'lines',
+                    coordinateSystem: 'bmap',
+                    polyline: true,
+                    data: iso,
+                    label:{show:true},
+                    lineStyle: {
+                        width: 5
+                    },
+                    zlevel: 1
+
+                }
+            ]
+        }
+        myChart.setOption(option_iso)
     })
 }
 
@@ -391,7 +428,7 @@ function heatmap(id, sname) {
 
     $.getJSON('data/heatmap.json', function(heatmapdata) {
         var sers = 5
-        series = [{}, {}, {}, {}, {}]
+        series = [{}, { label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}]
         if (id == 4) {
             series.push({ data: [] })
         } else {
@@ -405,6 +442,9 @@ function heatmap(id, sname) {
             })
         }
         var option_heatmap = {
+                        bmap: {
+                        center: [118.2820, 24.575422],
+                        zoom: 15},
             visualMap: {
                 max: 20,
                 seriesIndex: sers,

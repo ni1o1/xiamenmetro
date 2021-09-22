@@ -46,14 +46,20 @@
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="container2" style="position:absolute;height:900px;width:800px"></div>
                 <div class="tab-pane fade" id="container3" style="position:absolute;height:900px;width:800px"></div>
-                <div class="tab-pane fade" id="container4" style="position:absolute;height:900px;width:800px"></div>
+                <div class="tab-pane fade" id="container4" style="position:absolute;height:900px;width:800px">
+
+                    <input type="button" class="btn" value="显示等时圈" onClick="javascript:iso()" style='width:26rem;height:3rem' />
+                    <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='width:26rem;height:3rem' />
+                    <div class="tab-pane fade" id="cont4" style="position:absolute;height:300px;width:800px"></div>
+                </div>
                 <div class="tab-pane fade" id="container5" style="position:absolute;height:900px;width:800px"></div>
                 <div class="tab-pane fade" id="container6" style="position:absolute;height:900px;width:800px">
+
                     <input type="button" class="btn" value="就业人口" onClick="javascript:heatmap(0,'就业人口')" style='width:26rem;height:10rem' />
                     <input type="button" class="btn" value="居住人口" onClick="javascript:heatmap(1,'居住人口')" style='width:26rem;height:10rem' />
                     <input type="button" class="btn" value="人口热力-工作日" onClick="javascript:heatmap(2,'人口热力-工作日')" style='width:26rem;height:10rem' />
                     <input type="button" class="btn" value="人口热力-非工作日" onClick="javascript:heatmap(3,'人口热力-非工作日')" style='width:26rem;height:10rem' />
-                      <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='width:26rem;height:10rem' />
+                    <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='width:26rem;height:10rem' />
                 </div>
             </div>
         </div>
@@ -102,7 +108,7 @@
     var myChart2 = echarts.init(dom2);
     var dom3 = document.getElementById("container3");
     var myChart3 = echarts.init(dom3);
-    var dom4 = document.getElementById("container4");
+    var dom4 = document.getElementById("cont4");
     var myChart4 = echarts.init(dom4);
     var dom5 = document.getElementById("container5");
     var myChart5 = echarts.init(dom5);
@@ -114,9 +120,9 @@
             $.getJSON('styleJson_light.json', function(styleJson) {
                 var option = {
                     bmap: {
-                        center: [118.2820, 24.570422],
+                        center: [118.2820, 24.575422],
                         zoom: 15,
-                        roam: false,
+                        roam: true,
                         mapStyle: {
                             styleJson: styleJson
                         }
@@ -135,7 +141,7 @@
                         width: '300px',
                     }],
                     tooltip: {},
-                    legend: {bottom:'2%',left:'20%',itemHeight:30},
+                    legend: { bottom: '2%', left: '20%', itemHeight: 30 },
                     series: [{
                         type: 'lines',
                         coordinateSystem: 'bmap',
@@ -194,7 +200,7 @@
                 myChart.hideLoading();
 
                 function click1(para) {
-                    if ((para['seriesIndex'] <= 4)&(para['seriesIndex'] >= 1)) {
+                    if ((para['seriesIndex'] <= 4) & (para['seriesIndex'] >= 1)) {
                         var station = para['name']
                         for (var j = 0; j < 3; j++) {
                             for (var i = 0; i < metrostop[j].length; i++) {
@@ -222,7 +228,7 @@
                         setstationdata(station)
                     }
                 }
-                click1({ seriesIndex:1,seriesType: 'scatter', name: '林前' })
+                click1({ seriesIndex: 1, seriesType: 'scatter', name: '林前' })
                 myChart.on('click', click1)
             })
         })
