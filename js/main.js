@@ -400,9 +400,9 @@ function setstationdata(station) {
                 s1 = {
                     name: x,
                     type: 'bar',
-                    data: isoarea[x],      
+                    data: isoarea[x],
                     barGap: '0%',
-                barCategoryGap: '10%',
+                    barCategoryGap: '10%',
 
                 }
                 if (x == station) {
@@ -412,9 +412,10 @@ function setstationdata(station) {
                         shadowColor: 'rgba(0, 0, 0, 0.5)',
                         shadowBlur: 10
                     }
-                   
-                } else { 
-                    s1['itemStyle'] = {borderWidth: 0,shadowBlur: 0} }
+
+                } else {
+                    s1['itemStyle'] = { borderWidth: 0, shadowBlur: 0 }
+                }
                 s.push(s1)
             }
 
@@ -422,7 +423,7 @@ function setstationdata(station) {
             for (var r = 0; r < isoarea[x].length; r++) { xs.push(isoarea[x][r].name) }
 
             var option4 = {
-                title:[{
+                title: [{
                     text: '等时圈面积（平方千米）',
                     left: '45%',
                     top: '12%'
@@ -440,7 +441,7 @@ function setstationdata(station) {
                     max: 300,
                     gridIndex: 0
                 }],
-                legend: {top: '55%'},
+                legend: { top: '55%' },
                 yAxis: [{
                     inverse: true,
                     type: 'category',
@@ -450,7 +451,103 @@ function setstationdata(station) {
                 series: s
             }
             myChart4.setOption(option4)
-            console.log(isoarea)
+
+        })
+        //等时圈面积
+        $.getJSON('data/green.json', function(green) {
+        for (var i = 0; i < green[2].length; i++) {
+            if (green[2][i]['name'] == station) {
+               green[2][i]['itemStyle'] = {
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowBlur: 10
+                }
+            }
+        }
+
+            var option5 = {
+                title: [{
+                    text: '地铁站周边绿地',
+                    textAlign: 'center',
+                    left: '50%',
+                    top: '2%'
+                }],
+                grid: [{
+                    left: '28%',
+                    top: '8%',
+                    width: '42%',
+                    height: '38%'
+                },{
+                    left: '28%',
+                    top: '55%',
+                    width: '45%',
+                    height: '35%'
+                }],
+                xAxis: [{
+                    name: '米',
+                    min: -1000,
+                    max: 1000,
+                    gridIndex: 0
+                },{
+                    name: '平方千米',
+                    nameLocation:'middle',
+                    min: 0,
+                    max: 0.7,
+                    gridIndex: 1
+                }],
+                yAxis: [{
+                    name: '米',
+                    min: -1000,
+                    max: 1000,
+                    gridIndex: 0,
+
+                },{
+                inverse: true,
+                type: 'category',
+                gridIndex: 1,
+                data: ['体育会展', '东界', '洪坑', '林前', '鼓锣', '翔安市民公园', '浦边', '后村', '蔡厝'],
+            }],
+                legend: {  left: '18%',
+                    top: '50%',
+                   },
+                series: [{
+                    type: 'scatter',
+                    name: '周边绿地',
+                    symbol: 'rect',
+                    symbolSize: 5,
+                    data: green[0][station].value,
+                    itemStyle: { color: 'green' }
+
+                }, {
+                    type: 'scatter',
+                    name: '地铁站',
+                    symbolSize: 10,
+                    label: { show: true },
+                    data: [{ 'name': station + '站', 'value': [0, 0] }],
+                    itemStyle: { color: 'red' }
+
+                }, {
+                    type: 'line',
+                    name: '地铁站周边600米',
+                    symbolSize: 10,
+                    smooth: 0.6,
+                    symbol: 'none',
+                    data: green[1],
+                    lineStyle: { color: 'red', width: 5 },
+                    itemStyle: { color: 'red' }
+                }, {
+                name: '地铁站周边600米绿地面积',
+                type: 'bar',
+                data: green[2],
+                 xAxisIndex:1,
+                  yAxisIndex :1,
+                  label:{show:true,position:'right'},
+                  itemStyle: { color: 'green' }
+
+            }]
+            }
+            myChart5.setOption(option5)
         })
     })
 }
