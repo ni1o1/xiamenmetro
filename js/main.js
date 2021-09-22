@@ -257,6 +257,7 @@ function setstationdata(station) {
             }
         }
         var option3 = {
+            tooltip:{},
             title: [{
                 text: '周边用地词云图',
                 left: '75%',
@@ -321,7 +322,7 @@ function setstationdata(station) {
                 data: ['体育会展', '东界', '洪坑', '林前', '鼓锣', '翔安市民公园', '浦边', '后村', '蔡厝'],
             }],
             legend: [{
-                top: '45%',
+                top: '75%',
                 left: '85%',
                 data: ['3km平均房价', '5km平均房价','10km平均房价']
             }],
