@@ -386,12 +386,72 @@ function setstationdata(station) {
         };
         myChart3.setOption(option3)
         //人口热力
-        if ((myChart.getOption()
-                .series[5]['data'].length > 0) & (myChart.getOption()
-                .series[5]['type'] == 'lines')) {
-            iso()
-        }
+        try {
+            if ((myChart.getOption()
+                    .series[5]['data'].length > 0) & (myChart.getOption()
+                    .series[5]['type'] == 'lines')) {
+                iso()
+            }
+        } catch {}
+        //等时圈面积
+        $.getJSON('data/isoarea.json', function(isoarea) {
+            var s = []
+            for (x in isoarea) {
+                s1 = {
+                    name: x,
+                    type: 'bar',
+                    data: isoarea[x],      
+                    barGap: '0%',
+                barCategoryGap: '10%',
 
+                }
+                if (x == station) {
+                    s1['itemStyle'] = {
+                        borderColor: 'black',
+                        borderWidth: 1,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 10
+                    }
+                   
+                } else { 
+                    s1['itemStyle'] = {borderWidth: 0,shadowBlur: 0} }
+                s.push(s1)
+            }
+
+            xs = []
+            for (var r = 0; r < isoarea[x].length; r++) { xs.push(isoarea[x][r].name) }
+
+            var option4 = {
+                title:[{
+                    text: '等时圈面积（平方千米）',
+                    left: '45%',
+                    top: '12%'
+                }],
+                grid: [{
+                    left: '20%',
+                    top: '15%',
+                    width: '60%',
+                    height: '38%'
+                }],
+                tooltip: {},
+                xAxis: [{
+                    name: '平方千米',
+                    min: 0,
+                    max: 300,
+                    gridIndex: 0
+                }],
+                legend: {top: '55%'},
+                yAxis: [{
+                    inverse: true,
+                    type: 'category',
+                    gridIndex: 0,
+                    data: xs
+                }],
+                series: s
+            }
+            myChart4.setOption(option4)
+            console.log(isoarea)
+        })
     })
 }
 //等时圈加载

@@ -39,27 +39,31 @@
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active"><a href="#container2" data-toggle="tab">人口聚集指标</a></li>
                 <li><a href="#container3" data-toggle="tab">土地开发利用指标</a></li>
-                <li><a href="#container4" data-toggle="tab">交通影响力指标</a></li>
+                <li><a href="#cont4" data-toggle="tab">交通影响力指标</a></li>
                 <li><a href="#container5" data-toggle="tab">环境指标</a></li>
                 <li><a href="#container6" data-toggle="tab">衔接需求</a></li>
             </ul>
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="container2" style="position:absolute;height:900px;width:800px"></div>
                 <div class="tab-pane fade" id="container3" style="position:absolute;height:900px;width:800px"></div>
-                <div class="tab-pane fade" id="container4" style="position:absolute;height:900px;width:800px">
-
-                    <input type="button" class="btn" value="显示等时圈" onClick="javascript:iso()" style='width:26rem;height:3rem' />
-                    <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='width:26rem;height:3rem' />
-                    <div class="tab-pane fade" id="cont4" style="position:absolute;height:300px;width:800px"></div>
+                <div class="tab-pane fade" id="cont4" style="position:absolute;height:900px;width:800px">
+                    <div id="container4" style="position:absolute;height:900px;width:800px">
+                    </div>
+                    <div class="input-card " style='right:50px;width:700px;top:60px;height:40px'>
+                        <input type="button" class="btn" value="显示等时圈" onClick="javascript:iso()" style='position:absolute;left: 5rem;width:20rem;height:2rem' />
+                        <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='position:absolute;left: 30rem;width:20rem;height:2rem' /> </div>
                 </div>
                 <div class="tab-pane fade" id="container5" style="position:absolute;height:900px;width:800px"></div>
                 <div class="tab-pane fade" id="container6" style="position:absolute;height:900px;width:800px">
-
-                    <input type="button" class="btn" value="就业人口" onClick="javascript:heatmap(0,'就业人口')" style='width:26rem;height:10rem' />
-                    <input type="button" class="btn" value="居住人口" onClick="javascript:heatmap(1,'居住人口')" style='width:26rem;height:10rem' />
-                    <input type="button" class="btn" value="人口热力-工作日" onClick="javascript:heatmap(2,'人口热力-工作日')" style='width:26rem;height:10rem' />
-                    <input type="button" class="btn" value="人口热力-非工作日" onClick="javascript:heatmap(3,'人口热力-非工作日')" style='width:26rem;height:10rem' />
-                    <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='width:26rem;height:10rem' />
+                    <div class="tab-pane" id='cont6' style='right:50px;width:700px;top:50px;bottom:50px'>
+                        <div class="input-card " style='right:50px;width:700px;top:60px;height:120px'>
+                            <input type="button" class="btn" value="就业人口" onClick="javascript:heatmap(0,'就业人口')" style='position:absolute;left: 5rem;width:20rem;height:2rem' />
+                            <input type="button" class="btn" value="居住人口" onClick="javascript:heatmap(1,'居住人口')" style='position:absolute;left: 30rem;width:20rem;height:2rem' />
+                            <input type="button" class="btn" value="人口热力-工作日" onClick="javascript:heatmap(2,'人口热力-工作日')" style='position:absolute;left: 5rem;top: 3rem;width:20rem;height:2rem' />
+                            <input type="button" class="btn" value="人口热力-非工作日" onClick="javascript:heatmap(3,'人口热力-非工作日')" style='position:absolute;left: 30rem;top: 3rem;width:20rem;height:2rem' />
+                            <input type="button" class="btn" value="清除" onClick="javascript:heatmap(4)" style='position:absolute;left: 5rem;top: 5.5rem;width:20rem;height:2rem' />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +112,7 @@
     var myChart2 = echarts.init(dom2);
     var dom3 = document.getElementById("container3");
     var myChart3 = echarts.init(dom3);
-    var dom4 = document.getElementById("cont4");
+    var dom4 = document.getElementById("container4");
     var myChart4 = echarts.init(dom4);
     var dom5 = document.getElementById("container5");
     var myChart5 = echarts.init(dom5);
