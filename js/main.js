@@ -19,7 +19,6 @@ function setstationdata(station) {
                 }
             }
         }
-        console.log(population[5])
         var option2 = {
             title: [{
                     text: station,
@@ -80,7 +79,7 @@ function setstationdata(station) {
                 max: 11000,
                 gridIndex: 0
             }, {
-                inverse:true,
+                inverse: true,
                 type: 'category',
                 gridIndex: 1,
                 data: ['体育会展', '东界', '洪坑', '林前', '鼓锣', '翔安市民公园', '浦边', '后村', '蔡厝'],
@@ -89,7 +88,7 @@ function setstationdata(station) {
                 top: '49%',
                 left: '30%',
                 data: ['工作日', '非工作日']
-            },{
+            }, {
                 top: '49%',
                 left: '80%',
                 data: ['早高峰', '晚高峰']
@@ -219,8 +218,8 @@ function setstationdata(station) {
                 name: '早高峰',
                 type: 'bar',
                 data: population[5],
-                barGap:'0%',
-                barCategoryGap:'10%',
+                barGap: '0%',
+                barCategoryGap: '10%',
                 xAxisIndex: 1,
                 yAxisIndex: 1
             }, {
@@ -235,28 +234,97 @@ function setstationdata(station) {
     })
     //土地开发利用
     $.getJSON('data/wordcloud.json', function(wordcloud) {
+                for (var i = 0; i < wordcloud[5].length; i++) {
+            if (wordcloud[5][i]['name'] == station) {
+                wordcloud[3][i]['itemStyle'] = {
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowBlur: 10
+                }
+                wordcloud[4][i]['itemStyle'] = {
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowBlur: 10
+                }
+                wordcloud[5][i]['itemStyle'] = {
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowBlur: 10
+                }
+            }
+        }
         var option3 = {
             title: [{
                 text: '周边用地词云图',
                 left: '75%',
                 textAlign: 'center',
-                top: '45%'
+                top: '2%'
             }, {
                 text: '生活圈罗盘图',
                 left: '25%',
                 textAlign: 'center',
-                top: '45%'
+                top: '2%'
             }, {
                 text: '周边POI分布',
                 left: '25%',
                 textAlign: 'center',
-                top: '95%'
+                top: '48%'
             }, {
                 text: '房价分布区位',
                 left: '75%',
                 textAlign: 'center',
-                top: '95%'
+                top: '48%'
             }, ],
+            radar: {
+                center: ['25%', '25%'],
+                radius: '37.5%',
+                indicator: [
+                    { text: '衣', max: 5 },
+                    { text: '食', max: 5 },
+                    { text: '住', max: 5 },
+                    { text: '行', max: 5 },
+                    { text: '娱', max: 5 },
+                    { text: '教', max: 5 },
+                    { text: '医', max: 5 },
+                    { text: '养', max: 5 }
+                ],
+                name: {
+                    textStyle: {
+                        fontSize: 15,
+                        color: '#000'
+                    }
+                },
+                shape: 'circle',
+                //splitArea: { areaStyle: { color: 'red' } }//底面的面
+                //axisLine: { lineStyle: { color: 'red' } }//底面的轴
+                //splitLine: { lineStyle: { color: 'red' } }//底面的分隔线
+            },
+              grid: [ {
+                left: '65%',
+                top: '53%',
+                width: '38%',
+                height: '33%'
+
+            }],xAxis: [ {
+                name: '元/平方米',
+                min: 0,
+                max: 50000,
+                gridIndex: 0
+            }],
+            yAxis: [ {
+                inverse: true,
+                type: 'category',
+                gridIndex: 0,
+                data: ['体育会展', '东界', '洪坑', '林前', '鼓锣', '翔安市民公园', '浦边', '后村', '蔡厝'],
+            }],
+            legend: [{
+                top: '45%',
+                left: '85%',
+                data: ['3km平均房价', '5km平均房价','10km平均房价']
+            }],
             series: [{
                 type: 'wordCloud',
                 shape: 'circle',
@@ -268,8 +336,86 @@ function setstationdata(station) {
                 data: wordcloud[0][station],
                 sizeRange: [20, 60],
                 textStyle: {}
+            }, {
+                name: '生活圈罗盘',
+                type: 'radar',
+                label: { show: true },
+                data: [{ value: wordcloud[1][station] }],
+                areaStyle: {}
+            }, {
+                name: '周边POI',
+                type: 'pie',
+                center: ['30%', '65%'],
+                radius: '25.5%',
+                label: {
+                    show: true,
+                    alignTo: 'labelLine',
+                    formatter: '{name|{b}}\n{value|{c}}',
+                    minMargin: 5,
+                    edgeDistance: 10,
+                    lineHeight: 15,
+                    rich: {
+                        value: {
+                            fontSize: 10,
+                            color: '#999'
+                        }
+                    }
+                },
+                data: wordcloud[2][station],
+                areaStyle: {}
+            }, {
+                name: '3km平均房价',
+                type: 'bar',
+                data: wordcloud[3],
+                barGap: '0%',
+                barCategoryGap: '10%',
+                
+            }, {
+                name: '5km平均房价',
+                type: 'bar',
+                data: wordcloud[4],
+                
+            }, {
+                name: '10km平均房价',
+                type: 'bar',
+                data: wordcloud[5],
+               
             }],
         };
         myChart3.setOption(option3)
+    })
+}
+
+function heatmap(id, sname) {
+
+    $.getJSON('data/heatmap.json', function(heatmapdata) {
+        var sers = 5
+        series = [{}, {}, {}, {}, {}]
+        if (id == 4) {
+            series.push({ data: [] })
+        } else {
+            series.push({
+                name: sname,
+                type: 'scatter',
+                coordinateSystem: 'bmap',
+                data: heatmapdata[id],
+                symbol: 'rect',
+                symbolSize: 14
+            })
+        }
+        var option_heatmap = {
+            visualMap: {
+                max: 20,
+                seriesIndex: sers,
+                inRange: {
+                    color: ['lightskyblue', 'yellow', 'orangered']
+                }
+            },
+            series: series
+        }
+        console.log(option_heatmap)
+        myChart.setOption(option_heatmap)
+
+
     })
 }
