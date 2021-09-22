@@ -31,34 +31,34 @@ function setstationdata(station) {
                     text: '周边人口（内：居住，外：就业）',
                     left: '75%',
                     textAlign: 'center',
-                    top: '45%'
+                    top: '5%'
                 }, {
                     text: '职住人口比例',
                     left: '25%',
                     textAlign: 'center',
-                    top: '45%'
+                    top: '13%'
                 }, {
                     text: '人流量时变',
                     left: '25%',
                     textAlign: 'center',
-                    top: '95%'
+                    top: '46%'
                 }, {
                     text: '高峰小时人流量',
                     left: '75%',
                     textAlign: 'center',
-                    top: '95%'
+                    top: '46%'
                 },
             ],
             tooltip: {},
             grid: [{
                 left: '8%',
-                top: '55%',
+                top: '48%',
                 width: '42%',
                 height: '38%'
 
             }, {
                 left: '60%',
-                top: '55%',
+                top: '48%',
                 width: '38%',
                 height: '38%'
 
@@ -86,11 +86,11 @@ function setstationdata(station) {
                 data: ['体育会展', '东界', '洪坑', '林前', '鼓锣', '翔安市民公园', '浦边', '后村', '蔡厝'],
             }],
             legend: [{
-                top: '55%',
-                left: '20%',
+                top: '49%',
+                left: '30%',
                 data: ['工作日', '非工作日']
             },{
-                top: '55%',
+                top: '49%',
                 left: '80%',
                 data: ['早高峰', '晚高峰']
             }],
