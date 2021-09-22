@@ -386,18 +386,22 @@ function setstationdata(station) {
         };
         myChart3.setOption(option3)
         //人口热力
-
+        if ((myChart.getOption()
+                .series[5]['data'].length > 0) & (myChart.getOption()
+                .series[5]['type'] == 'lines')) {
+            iso()
+        }
 
     })
 }
-
+//等时圈加载
 function iso() {
-    var station = myChart.getOption().series[4]['data'][0]['name']
+    var station = myChart.getOption()
+        .series[4]['data'][0]['name']
     $.getJSON('data/gis/' + station + '.json', function(iso) {
-        console.log(iso)
 
         var option_iso = {
-            bmap:{zoom:13},
+            bmap: { zoom: 13 },
             visualMap: {
                 max: 90,
                 seriesIndex: 5,
@@ -405,13 +409,13 @@ function iso() {
                     color: ['green', '#eac736', '#d94e5d']
                 }
             },
-            series: [{}, {label: {fontSize:5},symbolSize:5}, {label: {fontSize:5},symbolSize:5}, {label: {fontSize:5},symbolSize:5}, {},
+            series: [{}, { label: { fontSize: 10 }, symbolSize: 10 }, { label: { fontSize: 10 }, symbolSize: 10 }, { label: { fontSize: 10 }, symbolSize: 10 }, {},
                 {
                     type: 'lines',
                     coordinateSystem: 'bmap',
                     polyline: true,
                     data: iso,
-                    label:{show:true},
+                    label: { show: true },
                     lineStyle: {
                         width: 5
                     },
@@ -423,12 +427,12 @@ function iso() {
         myChart.setOption(option_iso)
     })
 }
-
+//衔接需求加载
 function heatmap(id, sname) {
 
     $.getJSON('data/heatmap.json', function(heatmapdata) {
         var sers = 5
-        series = [{}, { label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}, {label: {fontSize:20},symbolSize:30}]
+        series = [{}, { label: { fontSize: 20 }, symbolSize: 30 }, { label: { fontSize: 20 }, symbolSize: 30 }, { label: { fontSize: 20 }, symbolSize: 30 }, { label: { fontSize: 20 }, symbolSize: 30 }]
         if (id == 4) {
             series.push({ data: [] })
         } else {
@@ -442,9 +446,10 @@ function heatmap(id, sname) {
             })
         }
         var option_heatmap = {
-                        bmap: {
-                        center: [118.2820, 24.575422],
-                        zoom: 15},
+            bmap: {
+                center: [118.2820, 24.575422],
+                zoom: 15
+            },
             visualMap: {
                 max: 20,
                 seriesIndex: sers,
