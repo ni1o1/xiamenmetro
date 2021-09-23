@@ -394,6 +394,7 @@ function setstationdata(station) {
             }
         } catch {}
         //等时圈面积
+        
         $.getJSON('data/isoarea.json', function(isoarea) {
             var s = []
             for (x in isoarea) {
