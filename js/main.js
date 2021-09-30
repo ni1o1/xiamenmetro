@@ -561,7 +561,8 @@ function iso() {
         var option_iso = {
             bmap: { zoom: 13 },
             visualMap: {
-                max: 90,
+                max: 60,
+                min:15,
                 seriesIndex: 5,
                 inRange: {
                     color: ['green', '#eac736', '#d94e5d']
